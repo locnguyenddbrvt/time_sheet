@@ -1,5 +1,12 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
+  /* background-color: #00bcd4; */
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
     "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
@@ -10,4 +17,17 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
+}
+@font-face {
+  font-family: "RobotoRegular";
+  src: url("./asset/fonts/Roboto-Regular.ttf");
+}
+@font-face {
+  font-family: "RobotoMedium";
+  src: url("./asset/fonts/Roboto-Medium.ttf");
+}
+
+.user-infor-tag {
+  background: url(http://training-timesheet.nccsoft.vn/user-img-background.7f354e93c30f9d51fc3a.jpg)
+    no-repeat no-repeat;
 }
