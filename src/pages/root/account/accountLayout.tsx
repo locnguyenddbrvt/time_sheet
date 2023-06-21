@@ -11,7 +11,6 @@ export default function Account() {
   >({
     transform: "translateY(-20px)",
   });
-
   useEffect(() => {
     setStyle({
       transition: "transform 0.75s",

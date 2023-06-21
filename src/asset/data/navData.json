@@ -1,0 +1,343 @@
+[
+  {
+    "title": "Home page",
+    "icon": {
+      "type": {
+        "type": {},
+        "compare": null
+      },
+      "key": null,
+      "ref": null,
+      "props": {},
+      "_owner": null,
+      "_store": {}
+    },
+    "isNested": false
+  },
+  {
+    "title": "Admin",
+    "icon": {
+      "type": {
+        "type": {},
+        "compare": null
+      },
+      "key": null,
+      "ref": null,
+      "props": {},
+      "_owner": null,
+      "_store": {}
+    },
+    "isNested": true,
+    "children": [
+      {
+        "title": "User",
+        "icon": {
+          "type": {
+            "type": {},
+            "compare": null
+          },
+          "key": null,
+          "ref": null,
+          "props": {},
+          "_owner": null,
+          "_store": {}
+        }
+      },
+      {
+        "title": "Roles",
+        "icon": {
+          "type": {
+            "type": {},
+            "compare": null
+          },
+          "key": null,
+          "ref": null,
+          "props": {},
+          "_owner": null,
+          "_store": {}
+        }
+      },
+      {
+        "title": "Configuration",
+        "icon": {
+          "type": {
+            "type": {},
+            "compare": null
+          },
+          "key": null,
+          "ref": null,
+          "props": {},
+          "_owner": null,
+          "_store": {}
+        }
+      },
+      {
+        "title": "Clients",
+        "icon": {
+          "type": {
+            "type": {},
+            "compare": null
+          },
+          "key": null,
+          "ref": null,
+          "props": {},
+          "_owner": null,
+          "_store": {}
+        }
+      },
+      {
+        "title": "Tasks",
+        "icon": {
+          "type": {
+            "type": {},
+            "compare": null
+          },
+          "key": null,
+          "ref": null,
+          "props": {},
+          "_owner": null,
+          "_store": {}
+        }
+      },
+      {
+        "title": "Leave types",
+        "icon": {
+          "type": {
+            "type": {},
+            "compare": null
+          },
+          "key": null,
+          "ref": null,
+          "props": {},
+          "_owner": null,
+          "_store": {}
+        }
+      },
+      {
+        "title": "Branches",
+        "icon": {
+          "type": {
+            "type": {},
+            "compare": null
+          },
+          "key": null,
+          "ref": null,
+          "props": {},
+          "_owner": null,
+          "_store": {}
+        }
+      }
+    ]
+  },
+  {
+    "title": "Projects",
+    "icon": {
+      "type": {
+        "type": {},
+        "compare": null
+      },
+      "key": null,
+      "ref": null,
+      "props": {},
+      "_owner": null,
+      "_store": {}
+    },
+    "isNested": false
+  },
+  {
+    "title": "My timesheets",
+    "icon": {
+      "type": {
+        "type": {},
+        "compare": null
+      },
+      "key": null,
+      "ref": null,
+      "props": {},
+      "_owner": null,
+      "_store": {}
+    },
+    "isNested": false
+  },
+  {
+    "title": "Timesheets",
+    "icon": {
+      "type": {
+        "type": {},
+        "compare": null
+      },
+      "key": null,
+      "ref": null,
+      "props": {},
+      "_owner": null,
+      "_store": {}
+    },
+    "isNested": false
+  },
+  {
+    "title": "Timesheets monitoring",
+    "icon": {
+      "type": {
+        "type": {},
+        "compare": null
+      },
+      "key": null,
+      "ref": null,
+      "props": {},
+      "_owner": null,
+      "_store": {}
+    },
+    "isNested": false
+  },
+  {
+    "title": "My leave days / onsite",
+    "icon": {
+      "type": {
+        "type": {},
+        "compare": null
+      },
+      "key": null,
+      "ref": null,
+      "props": {},
+      "_owner": null,
+      "_store": {}
+    },
+    "isNested": false
+  },
+  {
+    "title": "Manage team working calendar",
+    "icon": {
+      "type": {
+        "type": {},
+        "compare": null
+      },
+      "key": null,
+      "ref": null,
+      "props": {},
+      "_owner": null,
+      "_store": {}
+    },
+    "isNested": false
+  },
+  {
+    "title": "Team working calendar",
+    "icon": {
+      "type": {
+        "type": {},
+        "compare": null
+      },
+      "key": null,
+      "ref": null,
+      "props": {},
+      "_owner": null,
+      "_store": {}
+    },
+    "isNested": false
+  },
+  {
+    "title": "Setting off days",
+    "icon": {
+      "type": {
+        "type": {},
+        "compare": null
+      },
+      "key": null,
+      "ref": null,
+      "props": {},
+      "_owner": null,
+      "_store": {}
+    },
+    "isNested": false
+  },
+  {
+    "title": "Overtime settings",
+    "icon": {
+      "type": {
+        "type": {},
+        "compare": null
+      },
+      "key": null,
+      "ref": null,
+      "props": {},
+      "_owner": null,
+      "_store": {}
+    },
+    "isNested": false
+  },
+  {
+    "title": "My working time",
+    "icon": {
+      "type": {
+        "type": {},
+        "compare": null
+      },
+      "key": null,
+      "ref": null,
+      "props": {},
+      "_owner": null,
+      "_store": {}
+    },
+    "isNested": false
+  },
+  {
+    "title": "Manage working times",
+    "icon": {
+      "type": {
+        "type": {},
+        "compare": null
+      },
+      "key": null,
+      "ref": null,
+      "props": {},
+      "_owner": null,
+      "_store": {}
+    },
+    "isNested": false
+  },
+  {
+    "title": "Report",
+    "icon": {
+      "type": {
+        "type": {},
+        "compare": null
+      },
+      "key": null,
+      "ref": null,
+      "props": {},
+      "_owner": null,
+      "_store": {}
+    },
+    "isNested": true,
+    "children": [
+      {
+        "title": "User",
+        "icon": {
+          "type": {
+            "type": {},
+            "compare": null
+          },
+          "key": null,
+          "ref": null,
+          "props": {},
+          "_owner": null,
+          "_store": {}
+        }
+      }
+    ]
+  },
+  {
+    "title": "Review Interns",
+    "icon": {
+      "type": {
+        "type": {},
+        "compare": null
+      },
+      "key": null,
+      "ref": null,
+      "props": {},
+      "_owner": null,
+      "_store": {}
+    },
+    "isNested": false
+  }
+]

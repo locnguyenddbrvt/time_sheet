@@ -1,11 +1,12 @@
 import axios from "axios";
+import Cookies from "js-cookie";
 
 const instance = axios.create({
-  baseURL: process.env.REACT_APP_API_DOMAIN, // Set the base URL for your API
-  timeout: 5000, // Set a timeout for requests (optional)
+  baseURL: process.env.REACT_APP_API_DOMAIN,
+  timeout: 5000,
   headers: {
     "Content-Type": "application/json",
-    Authorization: `Bear ${"token"}`,
+    Authorization: `Bearer ${Cookies.get("tokenAccess")}`,
   },
 });
 

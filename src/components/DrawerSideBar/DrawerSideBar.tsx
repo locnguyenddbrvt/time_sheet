@@ -15,7 +15,6 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import LogoutIcon from "@mui/icons-material/Logout";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
-import StarBorder from "@mui/icons-material/StarBorder";
 import HomeIcon from "@mui/icons-material/Home";
 import ColorLensIcon from "@mui/icons-material/ColorLens";
 import AccountTreeIcon from "@mui/icons-material/AccountTree";
@@ -32,8 +31,11 @@ import GroupIcon from "@mui/icons-material/Group";
 import LocalOfferIcon from "@mui/icons-material/LocalOffer";
 import ConfirmationNumberIcon from "@mui/icons-material/ConfirmationNumber";
 import PeopleOutlineIcon from "@mui/icons-material/PeopleOutline";
-import { Fragment, useState } from "react";
 import { blue } from "@mui/material/colors";
+import { Fragment, useState, useContext } from "react";
+import Cookies from "js-cookie";
+
+import { userContext } from "../../utils/context";
 
 const navData = [
   {
@@ -131,6 +133,7 @@ export default function DrawerSideBar(props: DrawerSideBarProps) {
   const theme = useTheme();
   const isLargeScreen = useMediaQuery(theme.breakpoints.up("lg"));
   const { open, setOpen } = props;
+  const { userCurr } = useContext(userContext);
 
   // Handle toggle nested nav
   const [openNested, setOpenNested] = useState<string | null>(null);
@@ -139,6 +142,15 @@ export default function DrawerSideBar(props: DrawerSideBarProps) {
       setOpenNested(null);
       openNested !== title && setOpenNested(title);
     } else setOpenNested(title);
+  };
+  // handle Logout
+  const hanleLogout = () => {
+    Cookies.remove("tokenAccess");
+    Cookies.remove("encryptedAccessToken");
+    Cookies.remove("enc_auth_token");
+    Cookies.remove("Abp.AuthToken");
+    Cookies.remove("G_ENABLED_IDPS");
+    window.location.reload();
   };
 
   return (
@@ -173,16 +185,18 @@ export default function DrawerSideBar(props: DrawerSideBarProps) {
               }}
             >
               <Avatar
-                alt="Remy Sharp"
+                alt={
+                  userCurr ? userCurr.name + " " + userCurr.surname : "admin"
+                }
                 sx={{ width: 60, height: 60 }}
-                src="http://training-api-timesheet.nccsoft.vn/avatars/1685940394016_admin_image.jpg"
+                src={userCurr ? userCurr.avatarFullPath : "/default_avatar"}
               />
               <Box>
                 <Typography color="white" fontSize={14}>
-                  admin admin
+                  {userCurr && userCurr.name + " " + userCurr.surname}
                 </Typography>
                 <Typography color="white" fontSize={14}>
-                  admin@aspnetboilerplate.com
+                  {userCurr && userCurr.emailAddress}
                 </Typography>
               </Box>
               <IconButton
@@ -192,6 +206,7 @@ export default function DrawerSideBar(props: DrawerSideBarProps) {
                   right: 0,
                   backgroundColor: "white",
                 }}
+                onClick={hanleLogout}
               >
                 <LogoutIcon />
               </IconButton>
@@ -229,7 +244,7 @@ export default function DrawerSideBar(props: DrawerSideBarProps) {
                       <List component="div" disablePadding>
                         {el.children?.map((child, ind) => {
                           return (
-                            <ListItemButton sx={{ pl: 4 }}>
+                            <ListItemButton key={ind} sx={{ pl: 4 }}>
                               <ListItemIcon>{child.icon}</ListItemIcon>
                               <ListItemText
                                 primary={

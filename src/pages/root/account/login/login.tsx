@@ -19,10 +19,10 @@ import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 import { blue, pink } from "@mui/material/colors";
 import { useForm, SubmitHandler } from "react-hook-form";
 import Cookies from "js-cookie";
-
 import { useState } from "react";
 import axios from "axios";
-import ModalLoading from "../../../components/Modal/Loading";
+
+import ModalLoading from "../../../../components/Modal/Loading";
 
 type Inputs = {
   userName: string;
@@ -42,10 +42,11 @@ export default function Login() {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isValid },
   } = useForm<Inputs>();
   const onSubmit: SubmitHandler<Inputs> = (data) => {
     setOpenLoading(true);
+    setResultLogin(null);
     axios
       .post(process.env.REACT_APP_API_DOMAIN + `api/TokenAuth/Authenticate`, {
         userNameOrEmailAddress: data.userName,
@@ -64,6 +65,9 @@ export default function Login() {
           }
         );
         setResultLogin(true);
+        setTimeout(() => {
+          window.location.reload();
+        }, 1000);
       })
       .catch((err) => {
         console.log(err);
@@ -71,6 +75,7 @@ export default function Login() {
       });
   };
 
+  // UI render
   return (
     <>
       <ModalLoading
@@ -170,6 +175,7 @@ export default function Login() {
                 textTransform: "none",
               }}
               type="submit"
+              disabled={!isValid}
             >
               Log in
             </Button>

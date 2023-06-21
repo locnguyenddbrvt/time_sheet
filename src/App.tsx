@@ -1,9 +1,10 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
-import Account from "./pages/account/account";
-import Login from "./pages/account/login/login";
+import Account from "./pages/root/account/accountLayout";
+import Login from "./pages/root/account/login/login";
 import RootLayout from "./pages/root/rootLayout";
-import Projects from "./pages/root/project/project";
+import Projects from "./pages/root/app/project/project";
+import AppLayout from "./pages/root/app/appLayout";
 
 const router = createBrowserRouter([
   {
@@ -11,15 +12,21 @@ const router = createBrowserRouter([
     element: <RootLayout />,
     children: [
       {
-        path: "/project",
-        element: <Projects />,
+        path: "/account",
+        element: <Account />,
+        children: [{ path: "/account/login", element: <Login /> }],
+      },
+      {
+        path: "/app",
+        element: <AppLayout />,
+        children: [
+          {
+            path: "/app/project",
+            element: <Projects />,
+          },
+        ],
       },
     ],
-  },
-  {
-    path: "/account",
-    element: <Account />,
-    children: [{ path: "/account/login", element: <Login /> }],
   },
 ]);
 
