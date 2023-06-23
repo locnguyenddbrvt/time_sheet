@@ -5,6 +5,7 @@ import Login from "./pages/root/account/login/login";
 import RootLayout from "./pages/root/rootLayout";
 import Projects from "./pages/root/app/project/project";
 import AppLayout from "./pages/root/app/appLayout";
+import Test from "./pages/root/app/test/page";
 
 const router = createBrowserRouter([
   {
@@ -25,6 +26,10 @@ const router = createBrowserRouter([
             element: <Projects />,
           },
         ],
+      },
+      {
+        path: "/test",
+        element: <Test />,
       },
     ],
   },

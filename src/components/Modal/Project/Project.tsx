@@ -27,27 +27,72 @@ function a11yProps(index: number) {
 }
 export const dataBranchContext = createContext<null | any[]>(null);
 export const dataUserContext = createContext<null | any[]>(null);
+// export const dataTaskContext = createContext<
+//   | null
+//   | {
+//       name: string;
+//       type: number;
+//       isDeleted: boolean;
+//       id: number;
+//     }[]
+// >(null);
+interface UserRender {
+  name: string;
+  emailAddress: string;
+  isActive: true;
+  type: 0 | 1 | 2 | null;
+  jobTitle: null;
+  level: number;
+  userCode: string;
+  avatarPath: string;
+  avatarFullPath: string;
+  branch: null;
+  branchColor: string;
+  branchDisplayName: string;
+  branchId: number;
+  id: number;
+  isSelected: boolean;
+}
 export default function ModalProject(props: Props) {
   const { open, setOpen, type } = props;
   const [tab, setTab] = useState<number>(0);
   const [dataBranch, setDataBranch] = useState<null | any[]>(null);
   const [dataUser, setDataUser] = useState<null | any[]>(null);
+  const [dataTask, setDataTask] = useState<
+    | null
+    | {
+        name: string;
+        type: number;
+        isDeleted: boolean;
+        id: number;
+      }[]
+  >(null);
+  const [userRender, setUserRender] = useState<null | UserRender[]>(null);
 
   const handleChangeTab = (event: React.SyntheticEvent, newValue: number) => {
     setTab(newValue);
   };
+
+  useEffect(() => {
+    const usersRenderr: any[] | null = dataUser
+      ? dataUser.map((el, ind) => {
+          return { ...el, isSelected: false };
+        })
+      : null;
+    setUserRender(usersRenderr);
+  }, [dataUser]);
   useEffect(() => {
     const fetchData = async () => {
       const responseBranch = await instance.get(
         "api/services/app/Branch/GetAllBranchFilter?isAll=true"
       );
-      console.log(responseBranch.data.result);
       setDataBranch(responseBranch.data.result);
       const responseUser = await instance.get(
         "api/services/app/User/GetUserNotPagging"
       );
-      console.log(responseUser.data.result);
       setDataUser(responseUser.data.result);
+      const responseTask = await instance.get("api/services/app/Task/GetAll");
+      setDataTask(responseTask.data.result);
     };
     fetchData();
   }, []);
@@ -71,8 +116,6 @@ export default function ModalProject(props: Props) {
           borderRadius: 2,
           height: "90vh",
           maxHeight: "870px",
-          // display:"grid",
-          // gridTemplateRows:"auto auto"
         }}
       >
         <Box
@@ -129,11 +172,14 @@ export default function ModalProject(props: Props) {
             {tab === 1 && (
               <dataBranchContext.Provider value={dataBranch}>
                 <dataUserContext.Provider value={dataUser}>
-                  <TeamTab />
+                  <TeamTab
+                    userRender={userRender}
+                    setUserRender={setUserRender}
+                  />
                 </dataUserContext.Provider>
               </dataBranchContext.Provider>
             )}
-            {tab === 2 && <TasksTab />}
+            {tab === 2 && <TasksTab dataTask={dataTask} />}
             {tab === 3 && <NotificationTab />}
           </Box>
           <Box display={"flex"} justifyContent={"flex-end"}>

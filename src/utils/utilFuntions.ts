@@ -29,26 +29,35 @@ export async function useGetSession(
   const navigate = useNavigate();
   const location = useLocation();
   useEffect(() => {
-    const checkSession = async () => {
-      try {
-        setLoading(true);
-        const response = await instance.get(
-          "api/services/app/Session/GetCurrentLoginInformations"
-        );
-        const user = response.data.result.user;
-        const pathCurrent = location.pathname;
-        setUser(user);
-        if (pathCurrent === "/account/login") {
-          user && navigate("/app");
-        } else {
-          !user && navigate("/account/login");
-        }
-        setTimeout(() => setLoading(false), 1000);
-      } catch (err) {
-        console.log(err);
-        navigate("/account/login");
-      }
+    const fetchSession = async () => {
+      await instance
+        .get("api/services/app/Session/GetCurrentLoginInformations")
+        .then((response) => {
+          console.log(response);
+          const pathCurrent = location.pathname;
+          const user = response.data.result.user;
+          if (!user && pathCurrent !== "/account/login") {
+            navigate("/account/login");
+          }
+          if (user) {
+            setUser(user);
+            pathCurrent === "/account/login" && navigate("/app/project");
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+      setLoading(false);
     };
-    checkSession();
+    fetchSession();
+    //
+    // const pathCurrent = location.pathname;
+    // setUser(user);
+    // if (pathCurrent === "/account/login" && user) {
+    //   navigate("/app/project");
+    // }
+    // if (!user && pathCurrent !== "/account/login") {
+    //   navigate("/account/login");
+    // }
   }, [navigate, location, setLoading, setUser]);
 }

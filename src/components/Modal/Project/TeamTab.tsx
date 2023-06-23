@@ -11,44 +11,82 @@ import {
   OutlinedInput,
   Select,
   MenuItem,
-  List,
-  Avatar,
-  ListItemText,
-  ListItem,
-  IconButton,
+  Stack,
 } from "@mui/material";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
 import SearchIcon from "@mui/icons-material/Search";
-import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
-import DeleteIcon from "@mui/icons-material/Delete";
 
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState, Suspense, lazy, useEffect } from "react";
 import { dataBranchContext, dataUserContext } from "./Project";
-import { blue, green, red } from "@mui/material/colors";
+import { LoadingRight } from "./UI/RightUI";
+import { LoadingLeft } from "./UI/LeftUI";
 
-export default function TeamTab() {
+interface UserRender {
+  name: string;
+  emailAddress: string;
+  isActive: true;
+  type: 0 | 1 | 2 | null;
+  jobTitle: null;
+  level: number;
+  userCode: string;
+  avatarPath: string;
+  avatarFullPath: string;
+  branch: null;
+  branchColor: string;
+  branchDisplayName: string;
+  branchId: number;
+  id: number;
+  isSelected: boolean;
+}
+interface TeamLabProps {
+  userRender: null | UserRender[];
+  setUserRender: React.Dispatch<React.SetStateAction<any[] | null>>;
+}
+interface RightUIComponentLazyProps {
+  userRender: UserRender[] | null;
+  handleSelectUser: (user: UserRender) => void;
+}
+interface LeftUIComponentLazyProps {
+  userRender: UserRender[] | null;
+  handleUnSelectUser: (user: UserRender) => void;
+}
+export default function TeamTab(props: TeamLabProps) {
   const [openTeam, setOpenTeam] = useState<boolean>(true);
   const [openSelect, setOpenSelect] = useState(true);
   const dataBranch = useContext(dataBranchContext);
   const dataUser = useContext(dataUserContext);
   const [branchSelected, setBranchSelected] = useState<string>("All");
   const [typeSelected, setTypeSelected] = useState<number>(3);
-  const [userRender, setUserRender] = useState<null | any[]>(null);
-  //   type =[0,1,2,null]
+  const { userRender, setUserRender } = props;
+  const [RightUILazy, setRightUILazy] =
+    useState<null | React.ComponentType<RightUIComponentLazyProps> | null>(
+      null
+    );
+  const [LeftUILazy, setLeftUILazy] =
+    useState<null | React.ComponentType<LeftUIComponentLazyProps> | null>(null);
 
   useEffect(() => {
-    const usersRenderr: any[] | null = dataUser
-      ? dataUser.map((el, ind) => {
-          return { ...el, isSelected: false };
-        })
-      : null;
-    setUserRender(usersRenderr);
-  }, [dataUser]);
-  const handleSelectUser = (user: any) => {
+    if (openSelect) {
+      const loadComponent = async () => {
+        const RightUIComponentLazy = await lazy(() => import("./UI/RightUI"));
+        setRightUILazy(RightUIComponentLazy);
+      };
+      loadComponent();
+    }
+    if (openTeam) {
+      const loadComponent = async () => {
+        const LeftUIComponentLay = await lazy(() => import("./UI/LeftUI"));
+        setLeftUILazy(LeftUIComponentLay);
+      };
+      loadComponent();
+    }
+  }, [openSelect, openTeam]);
+
+  const handleSelectUser = (user: UserRender) => {
     const index = dataUser && userRender?.findIndex((el) => el.id === user.id);
-    setUserRender((b: null | any[]) => {
-      if (b && index) {
+    setUserRender((b: null | UserRender[]) => {
+      if ((b && index) || (b && index === 0)) {
         const bUpdate = [...b];
         if (index !== -1 && index < bUpdate.length) {
           bUpdate[index].isSelected = true;
@@ -57,10 +95,10 @@ export default function TeamTab() {
       } else return b;
     });
   };
-  const handleUnSelectUser = (user: any) => {
+  const handleUnSelectUser = (user: UserRender) => {
     const index = dataUser && userRender?.findIndex((el) => el.id === user.id);
-    setUserRender((b: null | any[]) => {
-      if (b && index) {
+    setUserRender((b: null | UserRender[]) => {
+      if ((b && index) || (b && index === 0)) {
         const bUpdate = [...b];
         if (index !== -1 && index < bUpdate.length) {
           bUpdate[index].isSelected = false;
@@ -69,6 +107,7 @@ export default function TeamTab() {
       } else return b;
     });
   };
+
   return (
     <Box
       sx={{ display: "flex", justifyContent: "space-between", height: "100%" }}
@@ -88,7 +127,7 @@ export default function TeamTab() {
           </ListItemIcon>
         </ListItemButton>
         <Collapse
-          in={openSelect}
+          in={openTeam}
           sx={{
             height: "100%",
             ".MuiCollapse-wrapper": {
@@ -152,10 +191,18 @@ export default function TeamTab() {
                 overflowY: "auto",
               }}
             >
-              <List>
-                {dataUser &&
+              {LeftUILazy && (
+                <Suspense fallback={<LoadingLeft />}>
+                  <LeftUILazy
+                    userRender={userRender}
+                    handleUnSelectUser={handleUnSelectUser}
+                  />
+                </Suspense>
+              )}
+              {/* <List>
+                {userRender &&
                   userRender
-                    ?.filter((user) => user.isSelected)
+                    .filter((user) => user.isSelected)
                     .map((user, index) => {
                       return (
                         <ListItem
@@ -226,7 +273,7 @@ export default function TeamTab() {
                         </ListItem>
                       );
                     })}
-              </List>
+              </List> */}
             </Box>
           </Box>
         </Collapse>
@@ -341,86 +388,22 @@ export default function TeamTab() {
                 />
               </FormControl>
             </Box>
-            <Box
+            <Stack
               sx={{
                 height: "100%",
                 maxHeight: "520px",
                 overflowY: "auto",
               }}
             >
-              <List>
-                {dataUser &&
-                  userRender
-                    ?.filter((user) => !user.isSelected)
-                    .map((user, index) => {
-                      return (
-                        <ListItemButton
-                          key={index}
-                          sx={{
-                            backgroundColor:
-                              index % 2 === 0 ? "#f9f9f9" : "white",
-                          }}
-                          onClick={() => handleSelectUser(user)}
-                        >
-                          <ListItemIcon>
-                            <ArrowBackIosNewIcon />
-                          </ListItemIcon>
-                          <Avatar alt="" src={user.avatarFullPath} />
-                          <ListItemText
-                            sx={{ ml: 2 }}
-                            primary={user.name}
-                            secondary={user.emailAddress}
-                          />
-                          {user.type === 0 && (
-                            <Typography
-                              fontSize={12}
-                              fontWeight={600}
-                              color={"white"}
-                              component={"div"}
-                              sx={{
-                                backgroundColor: red[500],
-                                px: 1,
-                                borderRadius: 4,
-                              }}
-                            >
-                              Staff
-                            </Typography>
-                          )}
-                          {user.type === 1 && (
-                            <Typography
-                              fontSize={12}
-                              fontWeight={600}
-                              color={"white"}
-                              component={"div"}
-                              sx={{
-                                backgroundColor: green[500],
-                                px: 1,
-                                borderRadius: 4,
-                              }}
-                            >
-                              Internship
-                            </Typography>
-                          )}
-                          {user.type === 2 && (
-                            <Typography
-                              fontSize={12}
-                              fontWeight={600}
-                              color={"white"}
-                              component={"div"}
-                              sx={{
-                                backgroundColor: blue[500],
-                                px: 1,
-                                borderRadius: 4,
-                              }}
-                            >
-                              Collaborator
-                            </Typography>
-                          )}
-                        </ListItemButton>
-                      );
-                    })}
-              </List>
-            </Box>
+              {RightUILazy && (
+                <Suspense fallback={<LoadingRight />}>
+                  <RightUILazy
+                    userRender={userRender}
+                    handleSelectUser={handleSelectUser}
+                  />
+                </Suspense>
+              )}
+            </Stack>
           </Box>
         </Collapse>
       </Box>

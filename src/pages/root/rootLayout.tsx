@@ -28,7 +28,6 @@ interface User {
 export default function RootLayout() {
   const [loading, setLoading] = useState<boolean>(true);
   const [userCurr, setUserCurr] = useState<null | User>(null);
-  console.log(userCurr);
 
   useGetSession(setUserCurr, setLoading);
   return (
