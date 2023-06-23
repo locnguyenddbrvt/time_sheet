@@ -71,6 +71,8 @@ export default function ModalProject(props: Props) {
           borderRadius: 2,
           height: "90vh",
           maxHeight: "870px",
+          // display:"grid",
+          // gridTemplateRows:"auto auto"
         }}
       >
         <Box
@@ -122,7 +124,7 @@ export default function ModalProject(props: Props) {
               />
             </Tabs>
           </Box>
-          <Box sx={{ overflowY: "auto" }}>
+          <Box sx={{ height: "100%", overflowY: "auto" }}>
             {tab === 0 && <GeneralTab />}
             {tab === 1 && (
               <dataBranchContext.Provider value={dataBranch}>
