@@ -27,6 +27,7 @@ interface UserRender {
   branchId: number;
   id: number;
   isSelected: boolean;
+  projectType: 0 | 1 | 2 | 3 | null;
 }
 interface Props {
   userRender: UserRender[] | null;

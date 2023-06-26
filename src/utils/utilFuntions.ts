@@ -33,7 +33,6 @@ export async function useGetSession(
       await instance
         .get("api/services/app/Session/GetCurrentLoginInformations")
         .then((response) => {
-          console.log(response);
           const pathCurrent = location.pathname;
           const user = response.data.result.user;
           if (!user && pathCurrent !== "/account/login") {
@@ -50,14 +49,5 @@ export async function useGetSession(
       setLoading(false);
     };
     fetchSession();
-    //
-    // const pathCurrent = location.pathname;
-    // setUser(user);
-    // if (pathCurrent === "/account/login" && user) {
-    //   navigate("/app/project");
-    // }
-    // if (!user && pathCurrent !== "/account/login") {
-    //   navigate("/account/login");
-    // }
   }, [navigate, location, setLoading, setUser]);
 }

@@ -30,13 +30,15 @@ interface UserRender {
   branchId: number;
   id: number;
   isSelected: boolean;
+  projectType: 0 | 1 | 2 | 3 | null;
 }
 interface Props {
   userRender: UserRender[] | null;
+  setUserRender: React.Dispatch<React.SetStateAction<UserRender[] | null>>;
   handleUnSelectUser: (user: UserRender) => void;
 }
 export default function LeftUI(props: Props) {
-  const { userRender, handleUnSelectUser } = props;
+  const { userRender, handleUnSelectUser, setUserRender } = props;
   return (
     <List>
       {userRender &&
@@ -110,13 +112,28 @@ export default function LeftUI(props: Props) {
                   <Select
                     labelId="demo-simple-select-standard-label"
                     id="demo-simple-select-standard"
-                    // value={age}
-                    // onChange={handleChange}
+                    value={user.projectType}
+                    onChange={(e) =>
+                      setUserRender((b) => {
+                        if (b) {
+                          const bUpdate = [...b];
+                          const index = bUpdate.findIndex(
+                            (userr) => userr.id === user.id
+                          );
+                          bUpdate[index].projectType = e.target.value as
+                            | 0
+                            | 1
+                            | 2
+                            | 3;
+                          return bUpdate;
+                        } else return b;
+                      })
+                    }
                   >
-                    <MenuItem value={10}>Member</MenuItem>
-                    <MenuItem value={20}>Project Manager</MenuItem>
-                    <MenuItem value={30}>Shadow</MenuItem>
-                    <MenuItem value={30}>Deactive</MenuItem>
+                    <MenuItem value={0}>Member</MenuItem>
+                    <MenuItem value={1}>Project Manager</MenuItem>
+                    <MenuItem value={2}>Shadow</MenuItem>
+                    <MenuItem value={3}>Deactive</MenuItem>
                   </Select>
                 </FormControl>
               </ListItem>
